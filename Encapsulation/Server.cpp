@@ -51,3 +51,8 @@ int ServerBrowserService::serverCount()
 {
 	return currentServerCount;
 }
+
+bool checkPing()
+{
+
+}
