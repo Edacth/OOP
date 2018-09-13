@@ -15,6 +15,6 @@ int main()
 	//charCount(string1, 'a');
 
 	//instanceCount(string2, "ab");
-	std::cout << string2 << std::endl;
+	std::cout << "test "  << string2 << std::endl;
 	return 0;
 }
