@@ -15,7 +15,7 @@ struct saveData
 struct beasiaryEntry
 {
 	int ID;
-	char name[20];
+	char name[20] = {};
 	char flavorText[50];
 };
 void helloWorld();

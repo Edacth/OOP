@@ -39,6 +39,8 @@ int main()
 		default:
 			break;
 		}
+		std::cin.clear();
+		std::cin.ignore(50, '\n');
 	}
 	
 	

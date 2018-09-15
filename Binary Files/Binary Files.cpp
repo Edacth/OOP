@@ -100,19 +100,42 @@ void bestiaryAdd()
 	beasiaryEntry myEntry;
 	std::string filePath;
 
-	std::cout << "Enter the ID of the new Monster" << std::endl;
+	while (true) {
+		std::cout << "Enter the ID of the new Monster (This will overwrite existing IDs)" << std::endl << " >";
+		std::cin >> myEntry.ID;
+		if (std::cin.fail()) {
+			std::cout << "Invalid input" << std::endl;
+			std::cin.ignore(50, '\n');
+			std::cin.clear();
+			
+			continue;
+		}
+		else { break; }
+	}
+
+	/*std::cout << "Enter the ID of the new Monster (This will overwrite existing IDs)" << std::endl << " >";
 	std::cin >> myEntry.ID;
 	std::cin.clear();
-	std::cin.ignore(1, '\n');
+	std::cin.ignore(50, '\n');
+	while ( !(myEntry.ID <= 10 && myEntry.ID >= 1) )
+	{
+		std::cout << "Please enter a positive integer" << std::endl << " >";
+		std::cin >> myEntry.ID;
+		std::cin.clear();
+		std::cin.ignore(50, '\n');
+	}*/
 
-	std::cout << "Enter the name of the new Monster" << std::endl;
+	
+	std::cout << "Enter the name of the new Monster" << std::endl << " >";
 	std::cin.getline(myEntry.name, 20);
+	std::cin.ignore(50, '\n');
 	std::cin.clear();
 	
-
-	std::cout << "Enter some flavor text" << std::endl;
-	std::cin.getline(myEntry.flavorText, 50);
 	
+	
+	std::cout << "Enter some flavor text" << std::endl << " >";
+	std::cin.getline(myEntry.flavorText, 50);
+	std::cin.clear();
 
 
 	filePath = "bestiary\\" + std::to_string(myEntry.ID) + ".dat";
@@ -149,6 +172,7 @@ void bestiaryView()
 	std::ifstream fin(filePath, std::ios::in | std::ios::binary);
 	if (!fin.good())
 	{
+		std::cout << "That entry does not exist." << std::endl;
 		return;
 	}
 	while (!fin.eof() && fin.peek() != EOF) {
@@ -163,6 +187,11 @@ void bestiaryView()
 
 void bestiaryList()
 {
+	int min, max;
+	std::cout << "Enter a range of ids to view" << std::endl;
+	std::cin >> min;
+	std::cin >> max;
+
 	for (int i = 1; i < 11; i++)
 	{
 		beasiaryEntry myEntry;
