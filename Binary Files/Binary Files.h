@@ -22,7 +22,7 @@ void helloWorld();
 void vectorz();
 void saveGame(saveData data);
 void loadGame(std::string path);
-void bestiaryPrint(int a);
+void bestiaryPrint();
 void bestiaryAdd();
 void bestiaryRemove();
 void bestiaryView();

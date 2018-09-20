@@ -3,6 +3,7 @@
 #include <cstring>
 #include <fstream>
 
+//Write a string to a file
 void helloWorld()
 {
 	std::string str1 = "Hello world";
@@ -23,6 +24,7 @@ void helloWorld()
 	
 }
 
+//Write a vector3 to a file
 struct Vector3{
 	float x, y, z;
 };
@@ -41,6 +43,7 @@ void vectorz() {
 	}
 }
 
+//Example of saving game data
 void saveGame(saveData data)
 {
 	int arraySize = sizeof(data);
@@ -57,6 +60,7 @@ void saveGame(saveData data)
 		fout.close();
 }
 
+//Example of loading game data
 void loadGame(std::string path)
 {
 	saveData mySave;
@@ -74,11 +78,9 @@ void loadGame(std::string path)
 	fin.close();
 }
 
-void bestiaryPrint(int a)
+//Prints the main menu of the bestiary
+void bestiaryPrint()
 {
-	switch (a)
-	{
-	case 1: 
 		std::cout << "What would you like to do?" << std::endl << std::endl;
 		std::cout << "1) Add a monster by ID" << std::endl;
 		std::cout << "2) Remove a monster by ID" << std::endl;
@@ -86,129 +88,167 @@ void bestiaryPrint(int a)
 		std::cout << "4) Browse monsters" << std::endl;
 		std::cout << "5) Exit" << std::endl;
 		std::cout << std::endl << "> ";
-
-		break;
-	case 2:
-
-	default:
-		break;
-	}
+	
 }
 
+//Adds a monster to the bestiary by creating a file
 void bestiaryAdd()
 {
 	beasiaryEntry myEntry;
 	std::string filePath;
 
-	while (true) {
+	while (true) { //Gets valid ID input
 		std::cout << "Enter the ID of the new Monster (This will overwrite existing IDs)" << std::endl << " >";
 		std::cin >> myEntry.ID;
 		if (std::cin.fail()) {
 			std::cout << "Invalid input" << std::endl;
 			std::cin.ignore(50, '\n');
 			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			
 			continue;
 		}
 		else { break; }
 	}
 
-	/*std::cout << "Enter the ID of the new Monster (This will overwrite existing IDs)" << std::endl << " >";
-	std::cin >> myEntry.ID;
-	std::cin.clear();
 	std::cin.ignore(50, '\n');
-	while ( !(myEntry.ID <= 10 && myEntry.ID >= 1) )
-	{
-		std::cout << "Please enter a positive integer" << std::endl << " >";
-		std::cin >> myEntry.ID;
-		std::cin.clear();
-		std::cin.ignore(50, '\n');
-	}*/
-
-	std::cin.ignore(50, '\n');
-	std::cout << "Enter the name of the new Monster" << std::endl << " >";
+	std::cout << "Enter the name of the new Monster" << std::endl << " >"; //Prompt name input
 	std::cin.getline(myEntry.name, 20);
-	//std::cin.ignore(50, '\n');
-	//std::cin.clear();
 	
-	
-	
-	std::cout << "Enter some flavor text" << std::endl << " >";
+	std::cout << "Enter some flavor text" << std::endl << " >"; //Prompt flavor input
 	std::cin.getline(myEntry.flavorText, 50);
-	//std::cin.clear();
 
 
-	filePath = "bestiary\\" + std::to_string(myEntry.ID) + ".dat";
+	filePath = "bestiary\\" + std::to_string(myEntry.ID) + ".dat"; //Creates the filepath
 	std::ofstream fout(filePath, std::ios::out | std::ios::binary);
 	if (!fout.good())
 	{
 		return;
 	}
-	fout.write((char*)&myEntry, sizeof(beasiaryEntry));
+	fout.write((char*)&myEntry, sizeof(beasiaryEntry)); //Writes data to file
 
 	fout.flush();
 	fout.close();
 }
 
+//Deletes a bestiary entry file
 void bestiaryRemove()
 {
 	int ID;
-	std::cout << "Enter the ID of the monster you wish to delete" << std::endl;
-	std::cin >> ID;
-	std::string filePath = "bestiary\\" + std::to_string(ID) + ".dat";
-	remove(filePath.c_str());
-	std::cout << ID << " has been deleted." << std::endl;
+
+	while (true) { //Gets valid ID input
+		std::cout << "Enter the ID of the monster you wish to delete" << std::endl << "> "; //Prompt input
+		std::cin >> ID;
+		if (std::cin.fail()) {
+			std::cout << "Invalid input" << std::endl;
+			std::cin.ignore(50, '\n');
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+			continue;
+		}
+		else { break; }
+	}
+	std::string filePath = "bestiary\\" + std::to_string(ID) + ".dat"; //Creates the filepath
+	remove(filePath.c_str()); //Deletes file
+	std::cout << std::endl << ID << " has been deleted." << std::endl;
 	std::cout << std::endl;
 }
 
+//Prints the data on a specified file
 void bestiaryView()
 {
 	int ID;
-	std::cout << "Enter the ID of the monster to view" << std::endl;
-	std::cin >> ID;
-
 	beasiaryEntry myEntry;
+
+	while (true) { //Gets valid ID input
+		std::cout << "Enter the ID of the monster to view" << std::endl << std::endl << "> "; //Prompt ID input
+		std::cin >> ID;
+		if (std::cin.fail()) {
+			std::cout << "Invalid input" << std::endl;
+			std::cin.ignore(50, '\n');
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+			continue;
+		}
+		else { break; }
+	}
+
 	std::string filePath = "bestiary\\" + std::to_string(ID) + ".dat";
 
 	std::ifstream fin(filePath, std::ios::in | std::ios::binary);
-	if (!fin.good())
+	if (!fin.good()) //Looks if the file exists
 	{
-		std::cout << "That entry does not exist." << std::endl;
-		std::cout << std::endl;
+		std::cout << std::endl << "-------------" << std::endl;
+		std::cout <<  "That entry does not exist." << std::endl << std::endl; //Rejection
+		std::cout << "-------------" << std::endl;
 		return;
 	}
-	while (!fin.eof() && fin.peek() != EOF) {
+	while (!fin.eof() && fin.peek() != EOF) { //Reads the file
 		fin.read((char*)&myEntry, sizeof(beasiaryEntry));
 		
 	}
-	std::cout << "-------------" << std::endl;
-	std::cout << myEntry.ID << " " << myEntry.name << " - " << myEntry.flavorText
-		<< std::endl << std::endl << std::endl << "-------------" << std::endl;
+	
+	std::cout << "-------------" << std::endl; //Prints the entry
+	std::cout << "ID: " << myEntry.ID << std::endl << "Name: " << myEntry.name << std::endl << "Flavor Text: " << myEntry.flavorText
+		<< std::endl << std::endl << "-------------" << std::endl << std::endl;
 	fin.close();
 }
 
+//Lists entries between two values specified by the user
 void bestiaryList()
 {
 	int min, max;
-	std::cout << "Enter a range of ids to view" << std::endl;
-	std::cin >> min;
-	std::cin >> max;
+	std::cout << "Enter a range of ids to view " << std::endl << std::endl << "> ";
+	while (true) { //Gets valid ID input
+		std::cin >> min;
+		if (std::cin.fail()) {
+			std::cout << "Invalid input" << std::endl;
+			std::cin.ignore(50, '\n');
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-	max += 1;
+			continue;
+		}
+		else { break; }
+	}
+
+	while (true) { //Gets valid ID input
+		std::cin >> max;
+		if (std::cin.fail()) {
+			std::cout << "Invalid input" << std::endl;
+			std::cin.ignore(50, '\n');
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+			continue;
+		}
+		else { break; }
+	}
+
+	if (min > max)
+	{
+		int temp = max;
+		max = min;
+		min = temp;
+	}
+
+	max += 1; //Account for arrays starting at 0
 	std::cout << std::endl;
-	for (int i = min; i < max; i++)
+	for (int i = min; i < max; i++) //Iterate through the values
 	{
 		beasiaryEntry myEntry;
 		std::string filePath = "bestiary\\" + std::to_string(i) + ".dat";
 
 		std::ifstream fin(filePath, std::ios::in | std::ios::binary);
-		if (fin.good())
+		if (fin.good()) //Check if the file exists
 		{
-			while (!fin.eof() && fin.peek() != EOF) {
+			while (!fin.eof() && fin.peek() != EOF) { //Reads the file
 				fin.read((char*)&myEntry, sizeof(beasiaryEntry));
 
 			}
-			std::cout << i << " " << myEntry.name << std::endl;
+			std::cout << i << " " << myEntry.name << std::endl; //Prints entry name if found
 			fin.close();
 		}
 		else

@@ -7,17 +7,23 @@ int main()
 {
 
 	saveData player1 = { "Dave", 6, 3, false, 134.55f };
+	//CLOSED AND OPEN SOLUTIONS vv
+	//------------------------------
 	//helloWorld();
 	//vectorz();
 	//saveGame(player1);
 	//loadGame("playerData.dat");
+	//------------------------------
 
+
+	//BESTIARY CODE
+	//------------------------------
 	bool keepGoing = true;
 
 	CreateDirectory("bestiary", NULL);
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		std::cout << "Something went wrong when trying to create your save folder." << std::endl;
+		std::cout << "Looks like you already have a data folder. Nice!" << std::endl;
 		system("pause");
 	}
 	else
@@ -27,12 +33,14 @@ int main()
 
 	}
 
-	while (keepGoing)
+	while (keepGoing)//Main game loop
 	{
-		bestiaryPrint(1);
-		char input;
-		std::cin >> input;
-		switch (input)
+		
+		bestiaryPrint(); //Print the menu
+
+		char input; 
+		std::cin >> input; //Prompt input
+		switch (input) //Run a funtion based on their input
 		{
 		case '1':
 			bestiaryAdd();
