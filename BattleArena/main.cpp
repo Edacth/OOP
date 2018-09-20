@@ -1,5 +1,6 @@
 #include <iostream>
 #include "BattleArena.h"
+#include <windows.h>
 
 
 
@@ -8,6 +9,7 @@ int main()
 	int team1Living;
 	int team2Living;
 	int teamSize = 3;
+	int turnCount = 0;
 
 	unit team1[3];
 	team1[0].initalize(100, 20, "Goblin1");
@@ -20,10 +22,13 @@ int main()
 	team2[2].initalize(100, 20, "Human3");
 	//sortArray(team1, teamSize);
 	//sortArray(team2, teamSize);
-
+	
 	
 	while ( (countAlive(team1, teamSize) >= 1) &&  (countAlive(team2, teamSize) >= 1))
 	{
+		turnCount++;
+		std::cout << "     -=== TURN: " << turnCount << " ===-" << std::endl;
+
 		//Have team1 attack
 		for (int i = 0; i < teamSize; i++)
 		{
@@ -49,6 +54,7 @@ int main()
 
 		printTeam(team1);
 		printTeam(team2);
+		system("pause");
 	}
 	
 		std::cout << "The battle is over. ";

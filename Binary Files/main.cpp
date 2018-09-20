@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Binary Files.h"
 #include <string>
+#include <Windows.h>
 
 int main()
 {
@@ -12,6 +13,19 @@ int main()
 	//loadGame("playerData.dat");
 
 	bool keepGoing = true;
+
+	CreateDirectory("bestiary", NULL);
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	{
+		std::cout << "Something went wrong when trying to create your save folder." << std::endl;
+		system("pause");
+	}
+	else
+	{
+		
+		std::cout << "Monster data folder does not exsist . . . \nCreating" << std::endl;
+
+	}
 
 	while (keepGoing)
 	{

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Binary Files.h"
-#include <string.h>
+#include <cstring>
 #include <fstream>
 
 void helloWorld()
@@ -125,21 +125,20 @@ void bestiaryAdd()
 		std::cin.ignore(50, '\n');
 	}*/
 
-	
+	std::cin.ignore(50, '\n');
 	std::cout << "Enter the name of the new Monster" << std::endl << " >";
 	std::cin.getline(myEntry.name, 20);
-	std::cin.ignore(50, '\n');
-	std::cin.clear();
+	//std::cin.ignore(50, '\n');
+	//std::cin.clear();
 	
 	
 	
 	std::cout << "Enter some flavor text" << std::endl << " >";
 	std::cin.getline(myEntry.flavorText, 50);
-	std::cin.clear();
+	//std::cin.clear();
 
 
 	filePath = "bestiary\\" + std::to_string(myEntry.ID) + ".dat";
-	//std::cout << filePath << std::endl;
 	std::ofstream fout(filePath, std::ios::out | std::ios::binary);
 	if (!fout.good())
 	{
@@ -158,6 +157,8 @@ void bestiaryRemove()
 	std::cin >> ID;
 	std::string filePath = "bestiary\\" + std::to_string(ID) + ".dat";
 	remove(filePath.c_str());
+	std::cout << ID << " has been deleted." << std::endl;
+	std::cout << std::endl;
 }
 
 void bestiaryView()
@@ -173,6 +174,7 @@ void bestiaryView()
 	if (!fin.good())
 	{
 		std::cout << "That entry does not exist." << std::endl;
+		std::cout << std::endl;
 		return;
 	}
 	while (!fin.eof() && fin.peek() != EOF) {
@@ -192,7 +194,9 @@ void bestiaryList()
 	std::cin >> min;
 	std::cin >> max;
 
-	for (int i = 1; i < 11; i++)
+	max += 1;
+	std::cout << std::endl;
+	for (int i = min; i < max; i++)
 	{
 		beasiaryEntry myEntry;
 		std::string filePath = "bestiary\\" + std::to_string(i) + ".dat";
@@ -214,4 +218,5 @@ void bestiaryList()
 		
 		
 	}
+	std::cout << std::endl;
 }
