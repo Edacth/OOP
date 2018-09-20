@@ -63,7 +63,7 @@ void printTeam(unit* team)
 	int length = 3;
 	for (int i = 0; i < length; i++)
 	{
-		std::cout << "-----------" << std::endl;
+		std::cout << "---------------" << std::endl;
 		std::cout << "Name: " << team[i].type << std::endl;
 		std::cout << "Status: " << (team[i].isAlive() ? "ALIVE" : "DEAD") << std::endl;
 		std::cout << "Health: " << team[i].getHealth() << std::endl;
