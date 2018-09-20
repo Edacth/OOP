@@ -3,12 +3,17 @@
 #include <random>
 #include <time.h>
 
-
+//Reduces health by amount
 void unit::takeDamage(int dam)
 {
 	health -= dam;
+	if (health < 0)
+	{
+		health = 0;
+	}
 }
 
+//initializes a unit with values
 void unit::initalize(int h, int a, std::string t)
 {
 	health = h;
@@ -16,25 +21,33 @@ void unit::initalize(int h, int a, std::string t)
 	type = t;
 }
 
+//Deals damage to a target
 void unit::dealDamage(unit& target)
 {
 	target.takeDamage(attack);
 }
 
+//Selects a random target and deals damage to them
 void unit::attackFoe(unit* opposingTeam)
 {
 	srand(time(NULL));
+	if (countAlive(opposingTeam, 3) == 0)
+	{
+		return;
+	}
 	int rand = std::rand() % countAlive(opposingTeam, 3);
 	std::cout << type << " attacks " << opposingTeam[rand].type << " for " << attack << std::endl;
 	unit& target = opposingTeam[rand];
 	dealDamage(target);
 }
 
+//returns health
 int unit::getHealth()
 {
 	return health;
 }
 
+//returns if alive
 bool unit::isAlive()
 {
 	if (health <= 0)
@@ -44,18 +57,22 @@ bool unit::isAlive()
 	return true;
 }
 
+//Prints a team's stats
 void printTeam(unit* team)
 {
 	int length = 3;
 	for (int i = 0; i < length; i++)
 	{
 		std::cout << "-----------" << std::endl;
-		std::cout << "Name " << team[i].type << std::endl;
-		std::cout << "Health " << team[i].getHealth() << std::endl;
+		std::cout << "Name: " << team[i].type << std::endl;
+		std::cout << "Status: " << (team[i].isAlive() ? "ALIVE" : "DEAD") << std::endl;
+		std::cout << "Health: " << team[i].getHealth() << std::endl;
+		
 	}
 	
 }
 
+//Counts the units alive on a team
 int countAlive(unit * team, size_t arrSize)
 {
 	int count = 0;
@@ -71,6 +88,7 @@ int countAlive(unit * team, size_t arrSize)
 	return count;
 }
 
+//Sorts a team array by health in decending order
 void sortArray(unit* arr, int length)
 {
 
